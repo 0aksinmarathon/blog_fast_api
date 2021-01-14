@@ -4,8 +4,9 @@ from app.models.article import Article
 from app.database import get_db_session
 from typing import List
 from app.schemas.article import ArticleQueryParams, ArticleGetResponseModel, ArticleCreateModel
+from app.util import oauth2_scheme
 
-router = APIRouter()
+router = APIRouter(dependencies=[Depends(oauth2_scheme)])
 
 
 @router.get('/{article_id}')
@@ -18,6 +19,7 @@ async def get_articles(query_param_values: ArticleQueryParams = Depends(),
                        db_session: Session = Depends(get_db_session)):
     articles = db_session.query(Article)
     for key in query_param_values.query_params:
+        print("ascjnasdjcnasjdncjasdncka")
         if getattr(query_param_values, key) is not None:
             articles = articles.filter(getattr(Article, key) == getattr(query_param_values, key))
     return articles.all()

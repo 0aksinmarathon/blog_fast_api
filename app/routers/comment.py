@@ -4,8 +4,9 @@ from app.models.comment import Comment
 from app.database import get_db_session
 from typing import List
 from app.schemas.comment import CommentQueryParams, CommentGetResponseModel, CommentCreateModel
+from app.util import oauth2_scheme
 
-router = APIRouter()
+router = APIRouter(dependencies=[Depends(oauth2_scheme)])
 
 
 @router.get('/{comment_id}')

@@ -1,8 +1,10 @@
+from app.routers import article, comment, user, auth
+from fastapi.middleware.cors import CORSMiddleware
+from typing import Optional
 from fastapi import FastAPI, APIRouter
-from app.routers import article, comment, user
-from fastapi_contrib.auth.middlewares import AuthenticationMiddleware
-from fastapi_contrib.auth.backends import AuthBackend
-# from fastapi.middleware.httpsredirect import HTTPSRedirectMiddleware
+from pydantic import BaseModel
+from sqlalchemy.orm import Session
+from app.models import User
 
 
 main_router = APIRouter()
@@ -21,16 +23,34 @@ main_router.include_router(
     prefix='/api/user',
     tags=['user']
 )
+main_router.include_router(
+    auth.router,
+    prefix='/api/auth',
+    tags=['auth']
+)
 
 
 app = FastAPI()
 app.include_router(main_router)
-# app.add_middleware(HTTPSRedirectMiddleware)
+
+
+def get_user_by_email(db_session: Session, email: str):
+    return db_session.query(User).filter(User.email == email).first()
+
+
+class TokenData(BaseModel):
+    username: Optional[str] = None
 
 
 @app.on_event('startup')
 async def startup():
-    app.add_middleware(AuthenticationMiddleware, backend=AuthBackend())
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["*"],
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
 
 
 @app.get('/')

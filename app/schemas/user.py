@@ -4,6 +4,8 @@ from typing import Optional
 
 class UserCreateModel(BaseModel):
     name: str
+    email: str
+    password: str
     is_admin: Optional[bool] = False
     is_staff: Optional[bool] = False
 
@@ -25,8 +27,13 @@ class UserQueryParams:
 
 class UserResponseModel(BaseModel):
     name: str
+    email: str
     is_admin: bool
     is_staff: bool
 
     class Config:
         orm_mode = True
+
+
+class UserInDB(UserResponseModel):
+    hashed_password: str

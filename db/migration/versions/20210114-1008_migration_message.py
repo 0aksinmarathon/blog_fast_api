@@ -1,8 +1,8 @@
-"""initial mig
+"""migration message
 
-Revision ID: bca62b328fbb
+Revision ID: af4387aa0c18
 Revises: 
-Create Date: 2021-01-14 05:38:43.092837
+Create Date: 2021-01-14 10:08:45.785568
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 from sqlalchemy.dialects import mysql
 
 # revision identifiers, used by Alembic.
-revision = 'bca62b328fbb'
+revision = 'af4387aa0c18'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -22,11 +22,13 @@ def upgrade():
     sa.Column('created_at', mysql.TIMESTAMP(), server_default=sa.text('CURRENT_TIMESTAMP'), nullable=True),
     sa.Column('updated_at', mysql.TIMESTAMP(), server_default=sa.text('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'), nullable=True),
     sa.Column('id', sa.Integer(), nullable=False, auto_increment=True),
-    sa.Column('name', sa.String(length=200), nullable=True),
+    sa.Column('name', sa.String(length=128), nullable=True),
     sa.Column('is_admin', sa.Boolean(), nullable=True),
     sa.Column('is_staff', sa.Boolean(), nullable=True),
-    sa.Column('email', sa.String(length=200), nullable=True),
-    sa.PrimaryKeyConstraint('id')
+    sa.Column('email', sa.String(length=128), nullable=False),
+    sa.Column('hashed_password', sa.String(length=128), nullable=True),
+    sa.PrimaryKeyConstraint('id'),
+    sa.UniqueConstraint('email')
     )
     op.create_table('articles',
     sa.Column('created_at', mysql.TIMESTAMP(), server_default=sa.text('CURRENT_TIMESTAMP'), nullable=True),
