@@ -1,5 +1,6 @@
-from blog_db import Base
+from app.database import Base
 
 from .user import User
 from .article import Article
 from .comment import Comment
+

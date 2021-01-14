@@ -1,9 +1,9 @@
 from fastapi import Depends, APIRouter
 from sqlalchemy.orm import Session
-from models.article import Article
-from blog_db import get_db_session
+from app.models.article import Article
+from app.database import get_db_session
 from typing import List
-from schemas.article import ArticleQueryParams, ArticleGetResponseModel, ArticleCreateModel
+from app.schemas.article import ArticleQueryParams, ArticleGetResponseModel, ArticleCreateModel
 
 router = APIRouter()
 

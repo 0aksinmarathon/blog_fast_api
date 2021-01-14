@@ -1,9 +1,9 @@
 from fastapi import Depends, APIRouter
 from sqlalchemy.orm import Session
-from models.comment import Comment
-from blog_db import get_db_session
+from app.models.comment import Comment
+from app.database import get_db_session
 from typing import List
-from schemas.comment import CommentQueryParams, CommentGetResponseModel, CommentCreateModel
+from app.schemas.comment import CommentQueryParams, CommentGetResponseModel, CommentCreateModel
 
 router = APIRouter()
 

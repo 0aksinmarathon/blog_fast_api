@@ -1,16 +1,12 @@
 from logging.config import fileConfig
 
-from sqlalchemy import engine_from_config
-from sqlalchemy import pool
-
 from alembic import context
 import sys
 import pathlib
 current_dir = pathlib.Path(__file__).resolve().parent
-sys.path.append(str(current_dir) + '/../')
-from blog_db import engine
-import models
-
+sys.path.append(str(current_dir) + '/../../')
+from app.database import engine
+from app import models
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

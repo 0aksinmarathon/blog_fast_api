@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String, ForeignKey, Text
-from models.common import TimestampMixin
-from blog_db import Base
+from app.models.common import TimestampMixin
+from app.database import Base
 
 
 class Article(Base, TimestampMixin):

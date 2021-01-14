@@ -3,7 +3,7 @@ services:
   api:
    container_name: blog-fast-api
    build: .
-   command: uvicorn blog_api:app --reload --host 0.0.0.0
+   command: uvicorn app.main:app --reload --host 0.0.0.0
    working_dir: /app
    ports:
      - 8000:8000
