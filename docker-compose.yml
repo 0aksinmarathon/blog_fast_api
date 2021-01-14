@@ -1,0 +1,28 @@
+version: "3"
+services:
+  api:
+   container_name: blog-fast-api
+   build: .
+   command: uvicorn blog_api:app --reload --host 0.0.0.0
+   working_dir: /app
+   ports:
+     - 8000:8000
+   volumes:
+     - .:/app
+   depends_on:
+     - db
+  db:
+   container_name: blog-fast-db
+   image: mysql:5.7
+   command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --query_cache_type=1
+   restart: always
+   environment:
+     - MYSQL_DATABASE=blog
+     - MYSQL_USER=blog
+     - MYSQL_PASSWORD=password
+     - MYSQL_ROOT_PASSWORD=
+     - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+   volumes:
+     - ./mysql:/var/lib/mysql
+   ports:
+     - 3306:3306
