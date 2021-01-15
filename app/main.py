@@ -34,14 +34,6 @@ app = FastAPI()
 app.include_router(main_router)
 
 
-def get_user_by_email(db_session: Session, email: str):
-    return db_session.query(User).filter(User.email == email).first()
-
-
-class TokenData(BaseModel):
-    username: Optional[str] = None
-
-
 @app.on_event('startup')
 async def startup():
     app.add_middleware(

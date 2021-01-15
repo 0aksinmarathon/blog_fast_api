@@ -4,8 +4,7 @@ from app.models.user import User
 from app.database import get_db_session
 from typing import List, Optional
 from app.schemas.user import UserQueryParams, UserUpdateModel, UserResponseModel, UserCreateModel
-from passlib.context import CryptContext
-from app.util import oauth2_scheme
+from app.util import oauth2_scheme, pwd_context
 
 router = APIRouter(dependencies=[Depends(oauth2_scheme)])
 
@@ -36,9 +35,6 @@ async def get_users(query_param_values: UserQueryParams = Depends(),
         if getattr(query_param_values, key) is not None:
             users = users.filter(getattr(User, key) == getattr(query_param_values, key))
     return users.all()
-
-
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 
 @router.post('/', status_code=status.HTTP_201_CREATED, response_model=UserResponseModel)

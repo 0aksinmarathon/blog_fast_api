@@ -19,7 +19,6 @@ async def get_articles(query_param_values: ArticleQueryParams = Depends(),
                        db_session: Session = Depends(get_db_session)):
     articles = db_session.query(Article)
     for key in query_param_values.query_params:
-        print("ascjnasdjcnasjdncjasdncka")
         if getattr(query_param_values, key) is not None:
             articles = articles.filter(getattr(Article, key) == getattr(query_param_values, key))
     return articles.all()
